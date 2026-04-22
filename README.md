@@ -135,6 +135,7 @@ siliconflow_tts/
 SILICONFLOW_API_KEY=your_api_key_here
 ```
 
+硅基流动登录注册 [硅基流动登录注册](https://cloud.siliconflow.cn/i/tyNkWQeb) 
 你可以在 [硅基流动控制台](https://cloud.siliconflow.cn/account/ak) 获取 API Key。
 
 ## 注意事项
