@@ -12,7 +12,7 @@
 - ⚙️ **API 配置** - 支持在线修改 API Key
 - 💰 **余额查询** - 实时查询账户余额
 - 本项目提供前端UI界面，便于使用。页面背景调用bing图片api，不喜欢可以点击导航栏左上角四叶草🍀刷新背景
-- <img width="1910" height="873" alt="PixPin_2026-04-23_03-17-48" src="https://github.com/user-attachments/assets/b84f9ec6-28f5-433b-8e5e-09ab36046890" />
+<img width="1910" height="873" alt="PixPin_2026-04-23_03-17-48" src="https://github.com/user-attachments/assets/b84f9ec6-28f5-433b-8e5e-09ab36046890" />
 <img width="1910" height="873" alt="PixPin_2026-04-23_03-18-02" src="https://github.com/user-attachments/assets/136fa7d1-0a87-4b62-b459-51674531e10e" />
 <img width="1910" height="873" alt="PixPin_2026-04-23_03-18-14" src="https://github.com/user-attachments/assets/93d6f649-a69a-493d-93ec-9bee758997cd" />
 <img width="1910" height="873" alt="PixPin_2026-04-23_03-18-44" src="https://github.com/user-attachments/assets/68ad56fc-f147-42ce-af88-2f5631d29e69" />
