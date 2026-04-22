@@ -496,6 +496,16 @@ body {
     margin-bottom: 8px;
 }
 
+.footer-text a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+}
+
+.footer-text a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .main {
         flex-direction: column;
