@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>硅基流动 TTS 工作室</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">SiliconFlow TTS Studio</h1>
+                <div class="header-actions">
+                    <div class="balance-section">
+                        <span class="balance-label">余额：</span>
+                        <span id="balance" class="balance-value">点击刷新</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main">
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-tab="upload">
+                        <i class="nav-icon">📤</i>
+                        <span class="nav-text">上传音色</span>
+                    </li>
+                    <li class="nav-item" data-tab="tts">
+                        <i class="nav-icon">🎙️</i>
+                        <span class="nav-text">文本转语音</span>
+                    </li>
+                    <li class="nav-item" data-tab="voices">
+                        <i class="nav-icon">🎵</i>
+                        <span class="nav-text">音色管理</span>
+                    </li>
+                    <li class="nav-item" data-tab="settings">
+                        <i class="nav-icon">⚙️</i>
+                        <span class="nav-text">API 配置</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="content">
+                <div class="content-wrapper">
+                    <div id="upload" class="tab-content active">
+                        <div class="card">
+                            <h2 class="card-title">上传自定义音色</h2>
+                            <div class="form-group">
+                                <label class="form-label">音频文件</label>
+                                <input type="file" id="clone-file" class="form-input" accept="audio/*">
+                                <div id="file-warning" class="form-warning hidden"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">模型</label>
+                                <select id="upload-model" class="form-select">
+                                    <option value="FunAudioLLM/CosyVoice2-0.5B" selected>FunAudioLLM/CosyVoice2-0.5B</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">音色名称</label>
+                                <div class="form-help">只支持英文、数字、下划线、连字符，不超过64字符</div>
+                                <input type="text" id="clone-name" class="form-input" placeholder="例如: my_voice_001">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">参考文本</label>
+                                <textarea id="clone-text" class="form-textarea" placeholder="请输入参考音频对应的文本内容" rows="4"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button id="upload-confirm-btn" class="btn btn-primary">
+                                    <i class="btn-icon">📤</i>
+                                    上传
+                                </button>
+                            </div>
+                            <div class="upload-result">
+                                <h3 class="result-title">上传结果</h3>
+                                <div class="result-item">
+                                    <span class="result-label">自定义音色名称：</span>
+                                    <span id="result-name" class="result-value">—</span>
+                                </div>
+                                <div class="result-item">
+                                    <span class="result-label">音色 URI：</span>
+                                    <span id="result-uri" class="result-value">—</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tts" class="tab-content hidden">
+                        <div class="card">
+                            <h2 class="card-title">文本转语音</h2>
+                            <div class="form-group">
+                                <label class="form-label">模型</label>
+                                <select id="tts-model" class="form-select">
+                                    <option value="FunAudioLLM/CosyVoice2-0.5B" selected>FunAudioLLM/CosyVoice2-0.5B</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">音色</label>
+                                <select id="voice-select" class="form-select">
+                                    <option value="" disabled selected>加载中...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">文本内容</label>
+                                <div class="form-help">最多200字（约30秒音频）</div>
+                                <textarea id="text-input" class="form-textarea" placeholder="请输入要转换的文本..." rows="6"></textarea>
+                                <span id="char-count" class="char-count">0 / 200</span>
+                            </div>
+                            <div class="params-grid">
+                                <div class="param-item">
+                                    <label class="param-label">语速: <span id="speed-val">1.0</span></label>
+                                    <input type="range" id="speed" class="param-range" min="0.25" max="4.0" step="0.25" value="1.0">
+                                </div>
+                                <div class="param-item">
+                                    <label class="param-label">音量: <span id="gain-val">0.0</span> dB</label>
+                                    <input type="range" id="gain" class="param-range" min="-10" max="10" step="1" value="0.0">
+                                </div>
+                                <div class="param-item">
+                                    <label class="param-label">格式</label>
+                                    <select id="format" class="param-select">
+                                        <option value="mp3" selected>MP3</option>
+                                        <option value="wav">WAV</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button id="generate-btn" class="btn btn-primary">
+                                    <i class="btn-icon">✨</i>
+                                    生成语音
+                                </button>
+                            </div>
+                            <div id="result-area" class="result-area hidden">
+                                <h3 class="result-title">生成结果</h3>
+                                <audio id="audio-player" class="audio-player" controls></audio>
+                                <a id="download-link" class="btn btn-secondary" href="#" download>
+                                    <i class="btn-icon">⬇️</i>
+                                    下载音频
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="voices" class="tab-content hidden">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">音色管理</h2>
+                                <button id="sync-btn" class="btn btn-secondary">
+                                    <i class="btn-icon">🔄</i>
+                                    刷新
+                                </button>
+                            </div>
+                            <div class="voices-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>名称</th>
+                                            <th>URI</th>
+                                            <th>模型</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="voices-table-body">
+                                        <tr>
+                                            <td colspan="4" class="table-empty">暂无数据</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="settings" class="tab-content hidden">
+                        <div class="card">
+                            <h2 class="card-title">API 配置</h2>
+                            <div class="form-group">
+                                <label class="form-label">API Key</label>
+                                <input type="text" id="api-key-input" class="form-input" placeholder="请输入 API Key">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">默认接口地址</label>
+                                <input type="text" id="api-url-input" class="form-input" placeholder="API 接口地址" value="https://api.siliconflow.cn/v1">
+                            </div>
+                            <div class="form-actions">
+                                <button id="save-key-btn" class="btn btn-primary">
+                                    <i class="btn-icon">💾</i>
+                                    保存配置
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p class="footer-text">Powered by Chris</p>
+                <p class="footer-text">如果您觉得本项目还不错，欢迎来个 Star，您的 Star 是我更新的动力</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

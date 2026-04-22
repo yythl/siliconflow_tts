@@ -1,0 +1,27 @@
+# 依赖包
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 环境变量
+.env
+
+# 测试文件
+*.mp3
+*.txt
+
+# 音频文件
+*.wav
+*.mp3
+*.ogg
+
+# IDE文件
+.vscode/
+.idea/
+
+# 操作系统文件
+Thumbs.db
+.DS_Store
+
+# 启动脚本
+启动应用.bat
