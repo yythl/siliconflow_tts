@@ -13,7 +13,15 @@ function setBingBackground() {
 setBingBackground();
 setInterval(setBingBackground, 30 * 60 * 1000);
 
+// 刷新背景按钮
 document.addEventListener('DOMContentLoaded', () => {
+    const refreshBgBtn = document.getElementById('refresh-bg-btn');
+    if (refreshBgBtn) {
+        refreshBgBtn.addEventListener('click', () => {
+            setBingBackground();
+        });
+    }
+
     const tabItems = document.querySelectorAll('.nav-item');
     const tabContents = document.querySelectorAll('.tab-content');
     
@@ -381,3 +389,92 @@ function copyToClipboard(text) {
         alert('复制失败，请手动复制');
     });
 }
+
+async function deleteVoice(name) {
+    if (!confirm(`确定要删除音色 "${name}" 吗？此操作不可恢复。`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/delete-voice?name=' + encodeURIComponent(name), {
+            method: 'POST'
+        });
+
+        if (response.ok) {
+            alert('删除成功！');
+            loadVoices();
+        } else {
+            const result = await response.json();
+            alert('删除失败: ' + result.detail);
+        }
+    } catch (e) {
+        alert('请求失败: ' + e.message);
+    }
+}
+
+async function loadVoices() {
+    try {
+        const voiceSelect = document.getElementById('voice-select');
+        const tableBody = document.getElementById('voices-table-body');
+
+        const response = await fetch('/api/voices');
+        const data = await response.json();
+
+        voiceSelect.innerHTML = '<option value="" disabled selected>请选择音色</option>';
+
+        if (data.system && data.system.length > 0) {
+            const group = document.createElement('optgroup');
+            group.label = "系统音色";
+            data.system.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.name;
+                opt.textContent = v.displayName;
+                group.appendChild(opt);
+            });
+            voiceSelect.appendChild(group);
+        }
+
+        if (data.custom && data.custom.length > 0) {
+            const group = document.createElement('optgroup');
+            group.label = "自定义音色";
+            data.custom.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v.uri;
+                opt.textContent = v.displayName;
+                group.appendChild(opt);
+            });
+            voiceSelect.appendChild(group);
+        }
+
+        if (data.custom && data.custom.length > 0) {
+            tableBody.innerHTML = data.custom.map(voice => `
+                <tr>
+                    <td>${voice.name}</td>
+                    <td>${voice.uri}</td>
+                    <td>${voice.model || 'FunAudioLLM/CosyVoice2-0.5B'}</td>
+                    <td>
+                        <button class="btn btn-secondary" onclick="copyToClipboard('${voice.uri}')">
+                            <i class="btn-icon">📋</i>
+                            复制
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteVoice('${voice.name}')">
+                            <i class="btn-icon">🗑️</i>
+                            删除
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="4" class="table-empty">暂无数据</td></tr>';
+        }
+
+    } catch (e) {
+        console.error("加载音色失败", e);
+        const voiceSelect = document.getElementById('voice-select');
+        const tableBody = document.getElementById('voices-table-body');
+        voiceSelect.innerHTML = '<option disabled>加载失败</option>';
+        tableBody.innerHTML = '<tr><td colspan="4" class="table-empty">加载失败</td></tr>';
+    }
+}
+
+loadVoices();

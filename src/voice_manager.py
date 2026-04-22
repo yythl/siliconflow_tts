@@ -105,3 +105,17 @@ class VoiceManager:
         except Exception as e:
             print(f"添加自定义音色失败: {e}")
             raise
+
+    def delete_custom_voice(self, name):
+        if name not in self.custom_voices:
+            raise Exception(f"音色 '{name}' 不存在")
+
+        voice_data = self.custom_voices[name]
+        uri = voice_data.get("uri")
+
+        if self.client and uri:
+            self.client.delete_voice(uri)
+
+        del self.custom_voices[name]
+        self.save_local()
+        print(f"音色 '{name}' 已删除")

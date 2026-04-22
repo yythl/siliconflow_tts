@@ -111,3 +111,22 @@ class SiliconFlowClient:
         except Exception as e:
             print(f"获取音色列表错误: {e}")
             raise
+
+    def delete_voice(self, uri):
+        self._check_client()
+
+        url = f"{Config.BASE_URL}/audio/voice/deletions"
+
+        try:
+            response = httpx.post(url, headers=self.headers, json={"uri": uri}, timeout=30.0)
+
+            if response.status_code != 200:
+                raise Exception(f"删除失败: {response.status_code} - {response.text}")
+
+            result = response.json()
+            print(f"删除响应: {result}")
+            return result
+
+        except Exception as e:
+            print(f"删除音色错误: {e}")
+            raise

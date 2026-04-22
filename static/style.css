@@ -59,6 +59,12 @@ body {
     align-items: center;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .logo {
     font-size: 20px;
     font-weight: 600;
@@ -93,6 +99,26 @@ body {
 .balance-value:hover {
     color: rgba(64, 169, 255, 0.9);
     background: none;
+}
+
+.header-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: var(--transition);
+}
+
+.header-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.refresh-icon {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
 }
 
 .main {
@@ -299,6 +325,15 @@ body {
 
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-danger {
+    background: rgba(255, 77, 79, 0.6);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: rgba(255, 77, 79, 0.8);
 }
 
 .btn-icon {

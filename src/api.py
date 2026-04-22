@@ -153,6 +153,14 @@ async def generate_speech(req: GenerateRequest):
         print(f"生成语音错误: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/delete-voice")
+async def delete_voice(name: str):
+    try:
+        voice_manager.delete_custom_voice(name)
+        return {"status": "success", "message": f"音色 '{name}' 已删除"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 @app.post("/api/upload-voice")
 async def upload_voice(
     file: UploadFile = File(...),
