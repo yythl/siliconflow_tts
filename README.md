@@ -42,7 +42,7 @@
 
 ### 安装方式一
 
-1.直接点击链接https://github.com/yythl/siliconflow_tts/releases/download/siliconflow_tts/siliconflow_tts.1.0.0.zip下载压缩包
+- [1.直接点击链接下载压缩包](https://github.com/yythl/siliconflow_tts/releases/download/siliconflow_tts/siliconflow_tts.1.0.0.zip)
 
 2.解压到任意位置，双击"启动应用.bat"会自动自检安装环境，并打开浏览器前端页面
 
