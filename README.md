@@ -40,12 +40,12 @@
 
 ### 安装步骤（两种任选一种）
 
-##安装方式一
+## 安装方式一
 
 1.直接点击链接https://github.com/yythl/siliconflow_tts/releases/download/siliconflow_tts/siliconflow_tts.1.0.0.zip下载压缩包
 2.解压到任意位置，双击"启动应用.bat"会自动自检安装环境，并打开浏览器前端页面
 
-##安装方式二
+## 安装方式二
 
 1. **克隆项目**
 ```bash
